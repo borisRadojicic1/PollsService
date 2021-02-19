@@ -34,11 +34,11 @@ public class PollServiceApplication {
 		TypeReference<List<Poll>> typeReference = new TypeReference<>() {
 		};
 
-		try (InputStream inputStream = TypeReference.class.getResourceAsStream("/assets/polls_temp.json")) {
+		try (InputStream inputStream = TypeReference.class.getResourceAsStream("/assets/polls.json")) {
 			List<Poll> polls = mapper.readValue(inputStream, typeReference);
-			log.info("polls mapped " + polls.toString());
+			//log.info("polls mapped " + polls.toString());
 			List<Poll> savedPolls = pollService.saveAll(polls);
-			log.info("polls saved " + savedPolls.toString());
+			//log.info("polls saved " + savedPolls.toString());
 			if (polls.equals(savedPolls)) {
 				log.info("Users Saved!");
 			}

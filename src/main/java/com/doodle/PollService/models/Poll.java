@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -25,12 +26,36 @@ public class Poll {
     private Integer participantsCount;
     private Integer inviteesCount;
     private String type;
+    private Integer columnConstraint;
+    @Column(name = "time_zone_flag")
+    private Boolean timeZone;
+    private Integer rowConstraint;
     private Boolean hidden;
     private String preferencesType;
     private String state;
     private String locale;
     private String title;
+
+    @Embedded
+    private User initiator;
+
+    @Column(columnDefinition = "TEXT")
+    private String description;
+
+    @Embedded
+    private Location location;
+
+    @ElementCollection
+    private List<PollOption> options;
+
     private String optionsHash;
+
+    @ElementCollection
+    private List<PollParticipant> participants;
+
+    private Object[] invitees;
+    private Boolean dateText;
+    private Boolean multiDay;
     private String device;
     private String levels;
 
