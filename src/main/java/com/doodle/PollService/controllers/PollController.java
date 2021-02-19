@@ -22,10 +22,15 @@ public class PollController {
     }
 
     @GetMapping
-    public List<Poll> findPolls(@RequestParam(name = "title", required = false) final String title) {
+    public List<Poll> findPolls(@RequestParam(name = "title", required = false) final String title,
+                                @RequestParam(name = "createdAfter", required = false) final Long dateMillis) {
 
         if (nonNull(title)) {
             return pollService.findAllByTitle(title);
+        }
+
+        if (nonNull(dateMillis)) {
+            return pollService.findAllCreatedAfter(dateMillis);
         }
 
         return pollService.findAll();
