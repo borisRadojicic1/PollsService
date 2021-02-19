@@ -4,9 +4,12 @@ import com.doodle.PollService.models.Poll;
 import com.doodle.PollService.services.PollService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+
+import static java.util.Objects.nonNull;
 
 @RestController
 @RequestMapping("/api/v1/polls")
@@ -19,7 +22,12 @@ public class PollController {
     }
 
     @GetMapping
-    public List<Poll> findPolls() {
+    public List<Poll> findPolls(@RequestParam(name = "title", required = false) final String title) {
+
+        if (nonNull(title)) {
+            return pollService.findAllByTitle(title);
+        }
+
         return pollService.findAll();
     }
 

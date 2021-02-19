@@ -19,6 +19,11 @@ public class PollServiceImpl implements PollService {
     }
 
     @Override
+    public List<Poll> findAllByTitle(final String title) {
+        return repository.findAllByTitle(title);
+    }
+
+    @Override
     public List<Poll> saveAll(final List<Poll> polls) {
         final List<Poll> pollsSaved = repository.saveAll(polls);
         repository.flush();
