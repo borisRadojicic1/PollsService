@@ -17,7 +17,7 @@ public class PollServiceApplication {
 	@Bean
 	CommandLineRunner runner(PollService pollService) {
 		return args -> {
-			pollsMapper.mapPollsJsonToDb(pollService);
+			if (pollsMapper.isDbNotPopulated()) pollsMapper.mapPollsJsonToDb(pollService);
 		};
 	}
 
