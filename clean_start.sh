@@ -1,6 +1,6 @@
 #!/bin/bash
 ./mvnw clean package -DskipTests
-cp target/PollsService-0.0.1-SNAPSHOT.jar src/main/docker
+cp target/PollService-0.0.1-SNAPSHOT.jar src/main/docker
 
 cd src/main/docker || exit
 sudo docker-compose down
