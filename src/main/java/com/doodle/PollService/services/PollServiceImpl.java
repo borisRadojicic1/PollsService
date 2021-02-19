@@ -1,5 +1,6 @@
 package com.doodle.PollService.services;
 
+import com.doodle.PollService.exceptions.BadRequestException;
 import com.doodle.PollService.models.Poll;
 import com.doodle.PollService.repositories.PollRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,35 +19,36 @@ public class PollServiceImpl implements PollService {
 
     @Override
     public List<Poll> findAll() {
-        return repository.findAll();
+        final List<Poll> polls = repository.findAll();
+        return List.copyOf(polls);
     }
 
     @Override
     public List<Poll> findAllByTitle(final String title) {
-        return repository.findAllByTitle(title);
+        final List<Poll> polls = repository.findAllByTitle(title);
+        return List.copyOf(polls);
     }
 
     @Override
     public List<Poll> findAllCreatedAfter(final Long dateMillis) {
         final Timestamp dateTimestamp = dateMillisToTimestamp(dateMillis);
-        return repository.findAllCreatedAfter(dateTimestamp);
+        final List<Poll> polls = repository.findAllCreatedAfter(dateTimestamp);
+        return List.copyOf(polls);
     }
 
     @Override
     public List<Poll> saveAll(final List<Poll> polls) {
         final List<Poll> pollsSaved = repository.saveAll(polls);
         repository.flush();
-        return pollsSaved;
+        return List.copyOf(pollsSaved);
     }
 
-    private Timestamp dateMillisToTimestamp(final Long dateMillis) {
+    private Timestamp dateMillisToTimestamp(final Long dateMillis) throws BadRequestException {
         try {
             final Instant instant = Instant.ofEpochMilli(dateMillis);
             return Timestamp.from(instant);
         } catch (DateTimeException | IllegalArgumentException e) {
-            return null;
+            throw new BadRequestException();
         }
     }
-
 }
-

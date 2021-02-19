@@ -1,5 +1,6 @@
 package com.doodle.PollService.controllers;
 
+import com.doodle.PollService.exceptions.PollNotFoundException;
 import com.doodle.PollService.models.Poll;
 import com.doodle.PollService.services.PollService;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 import static java.util.Objects.nonNull;
+import static org.springframework.util.CollectionUtils.isEmpty;
 
 @RestController
 @RequestMapping("/api/v1/polls")
@@ -26,14 +28,22 @@ public class PollController {
                                 @RequestParam(name = "createdAfter", required = false) final Long dateMillis) {
 
         if (nonNull(title)) {
-            return pollService.findAllByTitle(title);
+            final List<Poll> polls = pollService.findAllByTitle(title);
+            return checkIsSuccessful(polls);
         }
 
         if (nonNull(dateMillis)) {
-            return pollService.findAllCreatedAfter(dateMillis);
+            final List<Poll> polls = pollService.findAllCreatedAfter(dateMillis);
+            return checkIsSuccessful(polls);
         }
 
-        return pollService.findAll();
+        final List<Poll> polls = pollService.findAll();
+        return checkIsSuccessful(polls);
+    }
+
+    private List<Poll> checkIsSuccessful(final List<Poll> polls) throws PollNotFoundException {
+        if (isEmpty(polls)) throw new PollNotFoundException();
+        return polls;
     }
 
 }
