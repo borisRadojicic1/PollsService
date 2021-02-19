@@ -1,5 +1,6 @@
 package com.doodle.PollService.models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import lombok.AllArgsConstructor;
@@ -21,14 +22,21 @@ public class Poll {
     @Id
     private String id;
     private String adminKey;
+
+    @JsonFormat(shape = JsonFormat.Shape.NUMBER_INT, pattern = "ms")
     private Timestamp latestChange;
+
+    @JsonFormat(shape = JsonFormat.Shape.NUMBER_INT, pattern = "ms")
     private Timestamp initiated;
+
     private Integer participantsCount;
     private Integer inviteesCount;
     private String type;
     private Integer columnConstraint;
+
     @Column(name = "time_zone_flag")
     private Boolean timeZone;
+
     private Integer rowConstraint;
     private Boolean hidden;
     private String preferencesType;

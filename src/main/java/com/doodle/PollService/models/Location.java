@@ -15,7 +15,10 @@ public class Location {
 
     @Column(name = "location_name")
     private String name;
+
+    @Column(name = "location_address")
     private String address;
+
     private String countryCode;
     private String locationId;
 
